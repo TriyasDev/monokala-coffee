@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: Ganti URL sitemap dengan domain produksi asli
+Sitemap: https://monokalacoffee.id/sitemap.xml

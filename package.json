@@ -1,0 +1,13 @@
+{
+  "name": "monokala-coffee",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "node scripts/verify-static.mjs",
+    "start": "node server.mjs",
+    "lint": "node scripts/lint-static.mjs",
+    "test": "node --test tests/logic.test.mjs"
+  }
+}
