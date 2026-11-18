@@ -742,19 +742,27 @@ code {
 /* Framed Single Hero Photo with Flat Dots, Architectural Plate & Editorial Wordmark */
 .hero-visual {
   position: relative;
-  padding: var(--space-10) var(--space-3) var(--space-8) var(--space-4);
+  padding: var(--space-10) var(--space-4) var(--space-10) var(--space-4);
 }
 
 .hero-visual-dots {
   position: absolute;
-  top: 16px;
-  left: 0;
-  width: 96px;
-  height: 96px;
+  width: 112px;
+  height: 112px;
   color: var(--text-eyebrow);
-  opacity: 0.36;
+  opacity: 0.4;
   pointer-events: none;
   z-index: 0;
+}
+
+.hero-visual-dots-tl {
+  top: 14px;
+  left: -2px;
+}
+
+.hero-visual-dots-br {
+  bottom: 6px;
+  right: -4px;
 }
 
 .hero-visual-type {
@@ -767,11 +775,11 @@ code {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--font-logo);
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 500;
   font-size: clamp(2.25rem, 8.8vw, 3.5rem);
-  line-height: 0.88;
-  letter-spacing: 0.08em;
+  line-height: 0.9;
+  letter-spacing: 0.14em;
   word-spacing: 0.35em;
   color: var(--text-heading);
   opacity: 0.14;
@@ -790,15 +798,15 @@ code {
 }
 
 [data-theme="dark"] .hero-visual-type {
-  opacity: 0.15;
+  opacity: 0.16;
 }
 
 .hero-visual-plate {
   position: absolute;
   top: 52px;
   left: 28px;
-  right: 2px;
-  bottom: 20px;
+  right: 8px;
+  bottom: 26px;
   background-color: var(--bg-banner);
   border: 1px solid var(--border-emphasis);
   border-radius: var(--radius-lg);
@@ -1434,13 +1442,19 @@ code {
     justify-content: space-between;
   }
   .hero-visual {
-    padding: var(--space-12) var(--space-6) var(--space-10) var(--space-6);
+    padding: var(--space-12) var(--space-6) var(--space-12) var(--space-6);
   }
   .hero-visual-dots {
-    top: 22px;
-    left: 4px;
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
+  }
+  .hero-visual-dots-tl {
+    top: 18px;
+    left: 0;
+  }
+  .hero-visual-dots-br {
+    bottom: 6px;
+    right: -6px;
   }
   .hero-visual-type {
     top: -40px;
@@ -1458,8 +1472,8 @@ code {
   .hero-visual-plate {
     top: 64px;
     left: 40px;
-    right: 8px;
-    bottom: 24px;
+    right: 12px;
+    bottom: 30px;
   }
   .hero-grid {
     grid-template-columns: 1.05fr 0.95fr;

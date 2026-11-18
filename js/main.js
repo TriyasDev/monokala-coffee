@@ -683,7 +683,7 @@ function initServiceWorker() {
   if ('caches' in window) {
     caches.keys().then((keys) => {
       keys
-        .filter((key) => key.startsWith('monokala-') && key !== 'monokala-static-v15')
+        .filter((key) => key.startsWith('monokala-') && key !== 'monokala-static-v16')
         .forEach((key) => caches.delete(key));
     }).catch(() => {});
   }

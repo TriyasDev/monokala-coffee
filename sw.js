@@ -1,4 +1,4 @@
-const CACHE_NAME = 'monokala-static-v15';
+const CACHE_NAME = 'monokala-static-v16';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -6,9 +6,9 @@ const STATIC_ASSETS = [
   '/moments.html',
   '/event.html',
   '/login.html',
-  '/css/style.css?v=15',
-  '/js/theme-init.js?v=15',
-  '/js/main.js?v=15',
+  '/css/style.css?v=16',
+  '/js/theme-init.js?v=16',
+  '/js/main.js?v=16',
   '/js/logic.js',
   '/js/auth.js',
 ];
