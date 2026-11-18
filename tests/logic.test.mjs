@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  OPENING_HOURS,
   resolveTheme,
   toggleTheme,
+  getKalaStatus,
   normalizeCategory,
   matchesCategory,
   filterEventItems,
@@ -21,9 +23,28 @@ test('resolveTheme defaults to light and accepts dark only when explicit', () =>
 });
 
 test('toggleTheme flips cleanly between light and dark', () => {
-  assert.equal(toggleTheme('light'), 'dark');
   assert.equal(toggleTheme('dark'), 'light');
+  assert.equal(toggleTheme('light'), 'dark');
   assert.equal(toggleTheme(undefined), 'dark');
+});
+
+test('OPENING_HOURS and getKalaStatus compute WIB period and open/closed status', () => {
+  assert.equal(OPENING_HOURS.openHour, 7);
+  assert.equal(OPENING_HOURS.closeHour, 23);
+
+  // 09:15 UTC = 16:15 WIB (Kala Sore, Buka)
+  const soreOpen = getKalaStatus(new Date('2026-05-23T09:15:00Z'));
+  assert.equal(soreOpen.kalaKey, 'sore');
+  assert.equal(soreOpen.kalaLabel, 'Kala Sore');
+  assert.equal(soreOpen.isOpen, true);
+  assert.ok(soreOpen.chipText.includes('16.15 WIB'));
+  assert.ok(soreOpen.chipText.includes('Buka sampai 23.00'));
+
+  // 17:30 UTC = 00:30 WIB (Kala Malam, Tutup)
+  const malamClosed = getKalaStatus(new Date('2026-05-23T17:30:00Z'));
+  assert.equal(malamClosed.kalaKey, 'malam');
+  assert.equal(malamClosed.isOpen, false);
+  assert.ok(malamClosed.chipText.includes('Tutup dulu'));
 });
 
 test('formatUserInitials and getFirstName derive clean display tokens', () => {

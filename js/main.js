@@ -8,7 +8,6 @@ import {
   getFirstName,
   personalizeWhatsAppMessage,
   buildWhatsAppUrl,
-  getNextLightboxIndex,
 } from './logic.js';
 import { initFirebaseAuth, signInWithGoogle, signOutUser } from './auth.js';
 
@@ -92,7 +91,7 @@ function getActiveMemberName() {
   return localMember && localMember.name ? localMember.name : '';
 }
 
-// 0. Light / Dark Theme Switcher
+// 0. Light / Dark Theme Switcher (Default: Light)
 function initThemeSwitcher() {
   const toggleBtn = document.querySelector('[data-theme-toggle]');
   const moonIcon = document.querySelector('[data-theme-icon="moon"]');
@@ -116,7 +115,7 @@ function initThemeSwitcher() {
       toggleBtn.setAttribute('aria-pressed', String(isDark));
       toggleBtn.setAttribute(
         'aria-label',
-        isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap'
+        isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap'
       );
     }
     if (moonIcon) moonIcon.hidden = isDark;
@@ -172,7 +171,7 @@ function initMobileNav() {
   });
 }
 
-// 2. Category Filters (Product & Moments)
+// 6. Category Filters (Product & Moments)
 function initCategoryFilters() {
   const filterGroup = document.querySelector('[data-filter-group]');
   if (!filterGroup) return;
@@ -210,7 +209,7 @@ function initCategoryFilters() {
   });
 }
 
-// 3. Event Tabs (Upcoming / Past) & Category Filter
+// 7. Event Tabs (Upcoming / Past) & Category Filter
 function initEventExplorer() {
   const tabBar = document.querySelector('[data-event-tabs]');
   const categoryBar = document.querySelector('[data-event-categories]');
@@ -241,7 +240,7 @@ function initEventExplorer() {
     });
 
     if (countEl) {
-      const label = activeStatus === 'upcoming' ? 'event mendatang' : 'event terdahulu';
+      const label = activeStatus === 'upcoming' ? 'acara mendatang' : 'arsip acara';
       countEl.textContent = `Menampilkan ${visibleCount} ${label}`;
     }
     if (emptyEl) emptyEl.hidden = visibleCount > 0;
@@ -269,7 +268,7 @@ function initEventExplorer() {
   updateVisibility();
 }
 
-// 4. Save Event Toggle Buttons on Event Page
+// 8. Save Event Toggle Buttons on Event Page
 function initSaveEventButtons() {
   const buttons = Array.from(document.querySelectorAll('[data-save-event]'));
   if (buttons.length === 0) return;
@@ -280,7 +279,7 @@ function initSaveEventButtons() {
       const eventId = btn.getAttribute('data-save-event');
       const isSaved = saved.includes(eventId);
       btn.setAttribute('aria-pressed', String(isSaved));
-      btn.textContent = isSaved ? 'Saved' : 'Save Event';
+      btn.textContent = isSaved ? 'Tersimpan' : 'Simpan Acara';
     });
   };
 
@@ -300,7 +299,7 @@ function initSaveEventButtons() {
   });
 }
 
-// 5. WhatsApp Links (hardcoded wa.me + encodeURIComponent + signed-in prefill)
+// 9. WhatsApp Links (hardcoded wa.me + encodeURIComponent + signed-in prefill)
 function syncWhatsAppLinks() {
   const userName = getActiveMemberName();
 
@@ -332,99 +331,7 @@ function syncWhatsAppLinks() {
   });
 }
 
-// 6. Moments Lightbox
-function initLightbox() {
-  const lightbox = document.querySelector('#moments-lightbox');
-  const gallery = document.querySelector('[data-gallery-grid]');
-  if (!lightbox || !gallery) return;
-
-  const imgEl = lightbox.querySelector('[data-lightbox-img]');
-  const titleEl = lightbox.querySelector('[data-lightbox-title]');
-  const captionEl = lightbox.querySelector('[data-lightbox-caption]');
-  const closeBtn = lightbox.querySelector('[data-lightbox-close]');
-  const prevBtn = lightbox.querySelector('[data-lightbox-prev]');
-  const nextBtn = lightbox.querySelector('[data-lightbox-next]');
-
-  let activeTrigger = null;
-  let activeIndex = 0;
-
-  const getVisibleTriggers = () =>
-    Array.from(gallery.querySelectorAll('[data-lightbox-trigger]')).filter((el) => !el.hidden);
-
-  const renderAt = (index) => {
-    const triggers = getVisibleTriggers();
-    if (triggers.length === 0) return;
-    activeIndex = (index + triggers.length) % triggers.length;
-    const trigger = triggers[activeIndex];
-
-    const src = trigger.getAttribute('data-full-src') || '';
-    const title = trigger.getAttribute('data-full-title') || '';
-    const alt = trigger.getAttribute('data-full-alt') || title;
-    const caption = trigger.getAttribute('data-full-caption') || '';
-
-    if (imgEl) {
-      imgEl.setAttribute('src', src);
-      imgEl.setAttribute('alt', alt);
-    }
-    if (titleEl) titleEl.textContent = title;
-    if (captionEl) captionEl.textContent = `${caption} (${activeIndex + 1}/${triggers.length})`;
-  };
-
-  const openAt = (trigger) => {
-    const triggers = getVisibleTriggers();
-    activeTrigger = trigger;
-    renderAt(triggers.indexOf(trigger));
-    lightbox.hidden = false;
-    if (closeBtn) closeBtn.focus();
-  };
-
-  const close = () => {
-    lightbox.hidden = true;
-    if (activeTrigger) activeTrigger.focus();
-  };
-
-  gallery.addEventListener('click', (event) => {
-    const trigger = event.target.closest('[data-lightbox-trigger]');
-    if (!trigger) return;
-    openAt(trigger);
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', close);
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      const triggers = getVisibleTriggers();
-      renderAt(getNextLightboxIndex(activeIndex, triggers.length, 'prev'));
-    });
-  }
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      const triggers = getVisibleTriggers();
-      renderAt(getNextLightboxIndex(activeIndex, triggers.length, 'next'));
-    });
-  }
-
-  lightbox.addEventListener('click', (event) => {
-    if (event.target === lightbox) {
-      close();
-    }
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (lightbox.hidden) return;
-    const triggers = getVisibleTriggers();
-    if (event.key === 'Escape') {
-      close();
-    } else if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      renderAt(getNextLightboxIndex(activeIndex, triggers.length, 'prev'));
-    } else if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      renderAt(getNextLightboxIndex(activeIndex, triggers.length, 'next'));
-    }
-  });
-}
-
-// 7. Member Page Dashboard Interop (login.html)
+// 6. Member Page Dashboard Interop (login.html)
 function renderSavedEventsList() {
   const listEl = document.querySelector('[data-saved-events-list]');
   if (!listEl) return;
@@ -438,7 +345,7 @@ function renderSavedEventsList() {
     const emptyLi = document.createElement('li');
     emptyLi.className = 'saved-event-item';
     const text = document.createElement('span');
-    text.textContent = 'Belum ada event tersimpan. Pilih "Save Event" di halaman Event.';
+    text.textContent = 'Belum ada acara tersimpan. Pilih "Simpan Acara" di halaman Event.';
     emptyLi.appendChild(text);
     listEl.appendChild(emptyLi);
     return;
@@ -459,7 +366,7 @@ function renderSavedEventsList() {
 
     if (info.date) {
       const dateSpan = document.createElement('div');
-      dateSpan.className = 'gallery-sub';
+      dateSpan.className = 'saved-event-date';
       dateSpan.textContent = info.date;
       metaDiv.appendChild(dateSpan);
     }
@@ -476,12 +383,12 @@ function renderSavedEventsList() {
     waLink.setAttribute('href', buildWhatsAppUrl(WA_PHONE, msg));
     waLink.setAttribute('target', '_blank');
     waLink.setAttribute('rel', 'noopener noreferrer');
-    waLink.textContent = 'Join via WA';
+    waLink.textContent = 'Daftar WA →';
 
     const removeBtn = document.createElement('button');
     removeBtn.className = 'btn btn-outline btn-sm';
     removeBtn.setAttribute('type', 'button');
-    removeBtn.textContent = 'Remove';
+    removeBtn.textContent = 'Hapus';
     removeBtn.addEventListener('click', () => {
       const next = getSavedEventIds().filter((item) => item !== id);
       setSavedEventIds(next);
@@ -515,7 +422,7 @@ function syncLoginPageDashboard() {
   if (activeUser) {
     authCard.hidden = true;
     dashboard.hidden = false;
-    if (memberNameEl) memberNameEl.textContent = activeUser.name || 'Member Monokala';
+    if (memberNameEl) memberNameEl.textContent = activeUser.name || 'Kawan Monokala';
     if (memberEmailEl) memberEmailEl.textContent = activeUser.email || '';
     renderSavedEventsList();
   } else {
@@ -562,7 +469,7 @@ function initMemberPageForms() {
       const pass = (document.querySelector('#login-password')?.value || '').trim();
       if (!email || pass.length < 6) {
         if (loginError) {
-          loginError.textContent = 'Masukkan email valid dan password minimal 6 karakter.';
+          loginError.textContent = 'Masukkan email yang valid dan kata sandi minimal 6 karakter.';
           loginError.hidden = false;
         }
         return;
@@ -582,7 +489,7 @@ function initMemberPageForms() {
       const pass = (document.querySelector('#register-password')?.value || '').trim();
       if (!name || !email || pass.length < 6) {
         if (registerError) {
-          registerError.textContent = 'Lengkapi nama, email valid, dan password minimal 6 karakter.';
+          registerError.textContent = 'Lengkapi nama, email yang valid, dan kata sandi minimal 6 karakter.';
           registerError.hidden = false;
         }
         return;
@@ -608,7 +515,7 @@ function initMemberPageForms() {
   syncLoginPageDashboard();
 }
 
-// 8. Navbar Firebase Google OAuth UI
+// 12. Navbar Firebase Google OAuth UI
 function initAuthUI() {
   const authRoot = document.querySelector('[data-auth-root]');
   if (!authRoot) return;
@@ -665,7 +572,7 @@ function initAuthUI() {
       if (fullNameEl) fullNameEl.textContent = displayName || firstName;
       if (emailEl) emailEl.textContent = email;
       if (initialsEl) initialsEl.textContent = initials;
-      if (mobileAuthLabel) mobileAuthLabel.textContent = `Member (${firstName})`;
+      if (mobileAuthLabel) mobileAuthLabel.textContent = `Kartu Kawan (${firstName})`;
 
       if (avatarImg && user.photoURL) {
         avatarImg.setAttribute('src', user.photoURL);
@@ -689,7 +596,7 @@ function initAuthUI() {
     } else {
       if (signInBtn) signInBtn.hidden = false;
       if (profileBox) profileBox.hidden = true;
-      if (mobileAuthLabel) mobileAuthLabel.textContent = 'Member Pass';
+      if (mobileAuthLabel) mobileAuthLabel.textContent = 'Kartu Kawan';
       if (avatarImg) {
         avatarImg.setAttribute('src', '');
         avatarImg.hidden = true;
@@ -709,13 +616,13 @@ function initAuthUI() {
     } catch (err) {
       const code = err && err.code ? err.code : '';
       if (code === 'auth/popup-blocked') {
-        showFeedback('Popup login diblokir oleh browser. Izinkan popup untuk masuk dengan Google.');
+        showFeedback('Popup masuk diblokir browser. Izinkan popup sebentar agar bisa masuk.');
       } else if (code === 'auth/popup-closed-by-user') {
-        showFeedback('Login Google dibatalkan sebelum selesai.');
+        showFeedback('Jendela masuk ditutup sebelum selesai.');
       } else if (code === 'auth/unauthorized-domain') {
         showFeedback('Domain ini belum terdaftar di Firebase Authorized Domains.');
       } else {
-        showFeedback('Gagal masuk dengan Google. Silakan coba beberapa saat lagi.');
+        showFeedback('Gagal masuk dengan akun. Silakan coba beberapa saat lagi.');
       }
     } finally {
       if (triggerBtn) triggerBtn.disabled = false;
@@ -766,17 +673,28 @@ function initAuthUI() {
   initFirebaseAuth(renderUserState).catch(() => {
     if (signInBtn) {
       signInBtn.disabled = true;
-      signInBtn.setAttribute('title', 'Layanan login Google sedang tidak tersedia');
+      signInBtn.setAttribute('title', 'Layanan masuk sedang tidak tersedia');
     }
   });
 }
 
-// 9. Service Worker Registration
+// Service Worker Registration + stale cache cleanup
 function initServiceWorker() {
+  if ('caches' in window) {
+    caches.keys().then((keys) => {
+      keys
+        .filter((key) => key.startsWith('monokala-') && key !== 'monokala-static-v15')
+        .forEach((key) => caches.delete(key));
+    }).catch(() => {});
+  }
+
   if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
-    navigator.serviceWorker.register('/sw.js').catch(() => {
-      // Ignore registration error in restricted preview contexts
-    });
+    navigator.serviceWorker
+      .register('/sw.js', { updateViaCache: 'none' })
+      .then((reg) => reg.update())
+      .catch(() => {
+        // Ignore registration error in restricted preview contexts
+      });
   }
 }
 
@@ -786,7 +704,6 @@ initCategoryFilters();
 initEventExplorer();
 initSaveEventButtons();
 syncWhatsAppLinks();
-initLightbox();
 initMemberPageForms();
 initAuthUI();
 initServiceWorker();

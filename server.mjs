@@ -71,12 +71,13 @@ const server = http.createServer(async (req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
     const content = await fs.readFile(filePath);
+    const isCodeOrDoc = ['.html', '.css', '.js', '.mjs', '.json'].includes(ext);
 
     res.writeHead(200, {
       'Content-Type': contentType,
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=3600',
+      'Cache-Control': isCodeOrDoc ? 'no-cache, must-revalidate' : 'public, max-age=3600',
     });
 
     if (method === 'HEAD') {

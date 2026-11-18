@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://apis.google.com; style-src 'self' 'sha256-FuOGsIw8kQ33imDzZ2PeRSDpWujd4CvbWMH6zKXaD+k=' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com https://*.googleusercontent.com; connect-src 'self' https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://apis.google.com; style-src 'self' 'sha256-kGQKJ8Ssot+mxRbVlTo3fP+ZZkhcRG1100s+bhpn46Y=' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com https://*.googleusercontent.com; connect-src 'self' https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://accounts.google.com; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Monokala Coffee — Where Every Moment Meets</title>
   <meta name="description" content="Monokala Coffee, titik temu di setiap kala. Nikmati kopi racikan spesial sambil ikut Monobar, Sunday Run &amp; Chill, workshop, dan Monotalk.">
   <!-- TODO: Ganti canonical dan URL OG dengan domain produksi asli -->
@@ -16,15 +16,15 @@
   <meta name="twitter:title" content="Monokala Coffee — Where Every Moment Meets">
   <meta name="twitter:description" content="Kafe tempat komunitas berkumpul lewat nobar, lari pagi, kelas kreatif, dan bincang santai.">
 
-  <script src="js/theme-init.js"></script>
+  <script src="js/theme-init.js?v=15"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&amp;subset=latin&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&amp;text=MONOKALA&amp;display=swap" rel="stylesheet">
 
-  <style>body{margin:0;background:#F5EFE6;color:#14233B;font-family:system-ui,-apple-system,sans-serif}[data-theme="dark"] body{background:#0F1B2E;color:#F5EFE6}.site-header{position:sticky;top:0;background:#FFFDF9;border-bottom:1px solid #D6CBB9}[data-theme="dark"] .site-header{background:#0F1B2E;border-color:#2C4369}.hero{padding-block:2.5rem}[hidden]{display:none!important}</style>
-  <link rel="stylesheet" href="css/style.css">
-  <script type="module" src="js/main.js" defer></script>
+  <style>body{margin:0;background:#F5EFE6;color:#14233B;font-family:system-ui,-apple-system,sans-serif}[data-theme="dark"] body{background:#0F1B2E;color:#F5EFE6}.site-header{position:sticky;top:0;background:rgba(255,253,249,.92);border-bottom:1px solid #D6CBB9}[data-theme="dark"] .site-header{background:rgba(15,27,46,.92);border-color:#2C4369}.hero{padding-block:2.5rem}[hidden]{display:none!important}</style>
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <script type="module" src="js/main.js?v=15" defer></script>
 
   <script type="application/ld+json">
   {
@@ -146,7 +146,7 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <span class="eyebrow">Monokala Coffee · Titik Temu di Setiap Kala</span>
-          <h1>Where Every Moment Meets</h1>
+          <h1>Where Every Moment <span class="hero-accent-word">Meets</span></h1>
           <p class="hero-lead">
             Lebih dari sekadar tempat beli kopi. Monokala adalah ruang temu hangat untuk nonton bola bareng di Monobar, lari pagi bareng komunitas, ikut kelas seru, dan ngobrol santai di Monotalk.
           </p>
@@ -155,17 +155,33 @@
             <a class="btn btn-outline" href="product.html">Explore Menu</a>
           </div>
           <div class="hero-meta-strip">
-            <span>Buka Setiap Hari · TODO: 07.00 – 23.00 WIB</span>
+            <span>Buka Setiap Hari · 07.00 – 23.00 WIB</span>
             <span>Wi-Fi Cepat &amp; Meja Komunal Luas</span>
           </div>
         </div>
 
-        <div class="hero-media">
-          <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/hero-monokala.jpg -->
-          <picture>
-            <source srcset="assets/img/photos/hero-monokala.jpg" type="image/jpeg">
-            <img src="assets/img/photos/hero-monokala.jpg" width="1200" height="900" alt="Suasana ruang duduk hangat Monokala Coffee dengan pengunjung yang berkumpul menikmati kopi dan acara komunitas" fetchpriority="high" decoding="async">
-          </picture>
+        <div class="hero-visual">
+          <svg class="hero-visual-dots" viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="12" cy="12" r="2.5" fill="currentColor"/><circle cx="36" cy="12" r="2.5" fill="currentColor"/><circle cx="60" cy="12" r="2.5" fill="currentColor"/><circle cx="84" cy="12" r="2.5" fill="currentColor"/><circle cx="108" cy="12" r="2.5" fill="currentColor"/>
+            <circle cx="12" cy="36" r="2.5" fill="currentColor"/><circle cx="36" cy="36" r="2.5" fill="currentColor"/><circle cx="60" cy="36" r="2.5" fill="currentColor"/><circle cx="84" cy="36" r="2.5" fill="currentColor"/><circle cx="108" cy="36" r="2.5" fill="currentColor"/>
+            <circle cx="12" cy="60" r="2.5" fill="currentColor"/><circle cx="36" cy="60" r="2.5" fill="currentColor"/><circle cx="60" cy="60" r="2.5" fill="currentColor"/><circle cx="84" cy="60" r="2.5" fill="currentColor"/><circle cx="108" cy="60" r="2.5" fill="currentColor"/>
+            <circle cx="12" cy="84" r="2.5" fill="currentColor"/><circle cx="36" cy="84" r="2.5" fill="currentColor"/><circle cx="60" cy="84" r="2.5" fill="currentColor"/><circle cx="84" cy="84" r="2.5" fill="currentColor"/><circle cx="108" cy="84" r="2.5" fill="currentColor"/>
+            <circle cx="12" cy="108" r="2.5" fill="currentColor"/><circle cx="36" cy="108" r="2.5" fill="currentColor"/><circle cx="60" cy="108" r="2.5" fill="currentColor"/><circle cx="84" cy="108" r="2.5" fill="currentColor"/><circle cx="108" cy="108" r="2.5" fill="currentColor"/>
+          </svg>
+          <div class="hero-visual-type" aria-hidden="true">
+            <span>MONOKALA MONOKALA</span>
+            <span>MONOKALA MONOKALA</span>
+            <span>MONOKALA MONOKALA</span>
+            <span>MONOKALA MONOKALA</span>
+          </div>
+          <div class="hero-visual-plate" aria-hidden="true"></div>
+          <div class="hero-media">
+            <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/hero-monokala.jpg -->
+            <picture>
+              <source srcset="assets/img/photos/hero-monokala.jpg" type="image/jpeg">
+              <img src="assets/img/photos/hero-monokala.jpg" width="1200" height="900" alt="Suasana ruang duduk hangat Monokala Coffee dengan pengunjung yang berkumpul menikmati kopi dan acara komunitas" fetchpriority="high" decoding="async">
+            </picture>
+          </div>
         </div>
       </div>
     </section>
@@ -390,7 +406,7 @@
       </div>
     </section>
 
-    <!-- Preview 6 Moments -->
+    <!-- Preview 8 Moments (Instagram-ready: gambar + keterangan tanpa klik) -->
     <section class="section">
       <div class="container">
         <div class="section-header-row">
@@ -401,60 +417,94 @@
           <a class="btn btn-outline" href="moments.html">See All Moments</a>
         </div>
 
-        <div class="gallery-grid">
-          <a class="gallery-card" href="moments.html">
+        <div class="gallery-grid gallery-grid-4">
+          <article class="gallery-card">
             <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/event-monobar.jpg -->
             <picture>
               <source srcset="assets/img/photos/event-monobar.jpg" type="image/jpeg">
               <img src="assets/img/photos/event-monobar.jpg" width="800" height="600" alt="Sorak penonton Monobar saat pertandingan bola berlangsung di Monokala" loading="lazy" decoding="async">
             </picture>
-            <div class="gallery-caption">Monobar Matchday <span class="gallery-sub">Keseruan nobar bareng</span></div>
-          </a>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Keseruan nonton bareng laga besar dengan layar proyektor lebar di ruang utama Monokala.</p>
+            </div>
+          </article>
 
-          <a class="gallery-card" href="moments.html">
+          <article class="gallery-card">
             <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/event-run.jpg -->
             <picture>
               <source srcset="assets/img/photos/event-run.jpg" type="image/jpeg">
               <img src="assets/img/photos/event-run.jpg" width="800" height="600" alt="Pelari komunitas berfoto santai usai Sunday Run & Chill 5K" loading="lazy" decoding="async">
             </picture>
-            <div class="gallery-caption">Sunday Run &amp; Chill <span class="gallery-sub">Start pagi bareng komunitas</span></div>
-          </a>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Start pukul 06.00 WIB bareng pelari kota, ditutup sarapan hangat dan es kopi susu dingin.</p>
+            </div>
+          </article>
 
-          <a class="gallery-card" href="moments.html">
+          <article class="gallery-card">
             <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/event-workshop.jpg -->
             <picture>
               <source srcset="assets/img/photos/event-workshop.jpg" type="image/jpeg">
               <img src="assets/img/photos/event-workshop.jpg" width="800" height="600" alt="Peserta workshop menyimak sesi pengenalan warna dan kopi di meja komunal" loading="lazy" decoding="async">
             </picture>
-            <div class="gallery-caption">Weekend Class <span class="gallery-sub">Belajar santai sambil ngopi</span></div>
-          </a>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Sesi interaktif menentukan palet warna harian bersama mentor sambil menikmati kopi hangat.</p>
+            </div>
+          </article>
 
-          <a class="gallery-card" href="moments.html">
+          <article class="gallery-card">
             <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/event-monotalk.jpg -->
             <picture>
               <source srcset="assets/img/photos/event-monotalk.jpg" type="image/jpeg">
               <img src="assets/img/photos/event-monotalk.jpg" width="800" height="600" alt="Pembicara Monotalk #Inikatamereka berbincang akrab dengan audiens di malam hari" loading="lazy" decoding="async">
             </picture>
-            <div class="gallery-caption">Monotalk #Inikatamereka <span class="gallery-sub">Bincang hangat tanpa jarak</span></div>
-          </a>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Bincang malam tanpa sekat panggung—audiens bebas bertanya dan saling bertukar cerita.</p>
+            </div>
+          </article>
 
-          <a class="gallery-card" href="moments.html">
+          <article class="gallery-card">
             <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/hero-monokala.jpg -->
             <picture>
               <source srcset="assets/img/photos/hero-monokala.jpg" type="image/jpeg">
               <img src="assets/img/photos/hero-monokala.jpg" width="800" height="600" alt="Pengunjung bercengkerama di meja kayu panjang Monokala pada sore hari" loading="lazy" decoding="async">
             </picture>
-            <div class="gallery-caption">Evening Table <span class="gallery-sub">Obrolan santai lepas kerja</span></div>
-          </a>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Suasana hangat di meja komunal sebelum kickoff dimulai—saling sapa dan pesan menu favorit.</p>
+            </div>
+          </article>
 
-          <a class="gallery-card" href="moments.html">
+          <article class="gallery-card">
+            <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/product-dirty-latte.jpg -->
+            <picture>
+              <source srcset="assets/img/photos/product-dirty-latte.jpg" type="image/jpeg">
+              <img src="assets/img/photos/product-dirty-latte.jpg" width="800" height="600" alt="Segelas Dirty Latte hasil racikan sesi kelas seduh di bar Monokala" loading="lazy" decoding="async">
+            </picture>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Sesi kelas kopi santai mengenali ekstraksi espresso dan paduan susu dingin di bar Monokala.</p>
+            </div>
+          </article>
+
+          <article class="gallery-card">
             <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/product-es-kopi-susu.jpg -->
             <picture>
               <source srcset="assets/img/photos/product-es-kopi-susu.jpg" type="image/jpeg">
               <img src="assets/img/photos/product-es-kopi-susu.jpg" width="800" height="600" alt="Segelas Es Kopi Susu Gula Aren segar di bar kopi Monokala" loading="lazy" decoding="async">
             </picture>
-            <div class="gallery-caption">Daily Brew Ritual <span class="gallery-sub">Segelas kopi pembuka hari</span></div>
-          </a>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Hadiah paling dicari setelah menuntaskan lari 5 kilometer di Minggu pagi bareng komunitas.</p>
+            </div>
+          </article>
+
+          <article class="gallery-card">
+            <!-- GANTI DENGAN FOTO ASLI: assets/img/photos/product-tahu-lada-garam.jpg -->
+            <picture>
+              <source srcset="assets/img/photos/product-tahu-lada-garam.jpg" type="image/jpeg">
+              <img src="assets/img/photos/product-tahu-lada-garam.jpg" width="800" height="600" alt="Sepiring Tahu Lada Garam menemani sesi tanya jawab Monotalk malam" loading="lazy" decoding="async">
+            </picture>
+            <div class="gallery-caption">
+              <p class="gallery-desc">Obrolan malam makin hidup ditemani sepiring camilan gurih di tengah meja.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>

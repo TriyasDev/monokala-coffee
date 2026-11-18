@@ -1,4 +1,4 @@
-const CACHE_NAME = 'monokala-static-v4';
+const CACHE_NAME = 'monokala-static-v15';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -6,9 +6,9 @@ const STATIC_ASSETS = [
   '/moments.html',
   '/event.html',
   '/login.html',
-  '/css/style.css',
-  '/js/theme-init.js',
-  '/js/main.js',
+  '/css/style.css?v=15',
+  '/js/theme-init.js?v=15',
+  '/js/main.js?v=15',
   '/js/logic.js',
   '/js/auth.js',
 ];
@@ -35,17 +35,16 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
   if (url.pathname === '/firebase-applet-config.json') return;
 
+  // Network-first so style/HTML updates apply immediately, falling back to cache offline
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.status === 200 && response.type === 'basic') {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         return response;
-      });
-    })
+      })
+      .catch(() => caches.match(event.request))
   );
 });
