@@ -13,7 +13,7 @@ import {
   personalizeWhatsAppMessage,
   buildWhatsAppUrl,
   getNextLightboxIndex,
-} from '../js/logic.js';
+} from '../lib/logic.js';
 
 test('resolveTheme defaults to light and accepts dark only when explicit', () => {
   assert.equal(resolveTheme('dark'), 'dark');

@@ -1,8 +1,15 @@
 const WA_HOST = 'https://wa.me/';
 export const THEME_STORAGE_KEY = 'monokala_theme';
 
-// TODO: Sesuaikan jam buka aktual Monokala Coffee jika operasional berubah
-export const OPENING_HOURS = {
+export interface OpeningHours {
+  openHour: number;
+  closeHour: number;
+  openLabel: string;
+  closeLabel: string;
+  label: string;
+}
+
+export const OPENING_HOURS: OpeningHours = {
   openHour: 7,
   closeHour: 23,
   openLabel: '07.00',
@@ -10,15 +17,15 @@ export const OPENING_HOURS = {
   label: '07.00–23.00 WIB',
 };
 
-export function resolveTheme(value) {
+export function resolveTheme(value: string | null | undefined): 'light' | 'dark' {
   return value === 'dark' ? 'dark' : 'light';
 }
 
-export function toggleTheme(currentTheme) {
+export function toggleTheme(currentTheme: string | null | undefined): 'light' | 'dark' {
   return resolveTheme(currentTheme) === 'dark' ? 'light' : 'dark';
 }
 
-export function getWibTimeParts(date = new Date()) {
+export function getWibTimeParts(date = new Date()): { hour: number; minute: number; timeText: string } {
   try {
     const parts = new Intl.DateTimeFormat('en-GB', {
       timeZone: 'Asia/Jakarta',
@@ -46,10 +53,19 @@ export function getWibTimeParts(date = new Date()) {
   }
 }
 
-export function getKalaStatus(date = new Date()) {
+export interface KalaStatus {
+  kalaKey: 'pagi' | 'siang' | 'sore' | 'malam';
+  kalaLabel: string;
+  timeText: string;
+  isOpen: boolean;
+  statusText: string;
+  chipText: string;
+}
+
+export function getKalaStatus(date = new Date()): KalaStatus {
   const { hour, timeText } = getWibTimeParts(date);
 
-  let kalaKey = 'malam';
+  let kalaKey: 'pagi' | 'siang' | 'sore' | 'malam' = 'malam';
   let kalaLabel = 'Kala Malam';
   if (hour >= 5 && hour < 11) {
     kalaKey = 'pagi';
@@ -77,11 +93,11 @@ export function getKalaStatus(date = new Date()) {
   };
 }
 
-export function normalizeCategory(value) {
+export function normalizeCategory(value: string | null | undefined): string {
   return String(value || 'all').trim().toLowerCase();
 }
 
-export function matchesCategory(itemCategory, selectedCategory) {
+export function matchesCategory(itemCategory: string | null | undefined, selectedCategory: string | null | undefined): boolean {
   const selected = normalizeCategory(selectedCategory);
   if (selected === 'all' || selected === '') {
     return true;
@@ -89,7 +105,23 @@ export function matchesCategory(itemCategory, selectedCategory) {
   return normalizeCategory(itemCategory) === selected;
 }
 
-export function filterEventItems(items, { status = 'upcoming', category = 'all' } = {}) {
+export interface EventItem {
+  id: string;
+  title: string;
+  category: string;
+  status: 'upcoming' | 'past';
+  date: string;
+  time?: string;
+  location?: string;
+  description: string;
+  image?: string;
+  badge?: string;
+}
+
+export function filterEventItems<T extends { status?: string; category?: string }>(
+  items: T[],
+  { status = 'upcoming', category = 'all' }: { status?: string; category?: string } = {}
+): T[] {
   const targetStatus = normalizeCategory(status);
   return items.filter((item) => {
     const statusOk = normalizeCategory(item.status) === targetStatus;
@@ -98,7 +130,7 @@ export function filterEventItems(items, { status = 'upcoming', category = 'all' 
   });
 }
 
-export function formatUserInitials(displayName, email) {
+export function formatUserInitials(displayName: string | null | undefined, email: string | null | undefined): string {
   const source = String(displayName || '').trim() || String(email || '').trim();
   if (!source) return 'M';
   const parts = source.split(/\s+/).filter(Boolean);
@@ -108,7 +140,7 @@ export function formatUserInitials(displayName, email) {
   return source.slice(0, 2).toUpperCase();
 }
 
-export function getFirstName(displayName, email) {
+export function getFirstName(displayName: string | null | undefined, email: string | null | undefined): string {
   const name = String(displayName || '').trim();
   if (name) {
     return name.split(/\s+/)[0];
@@ -120,7 +152,7 @@ export function getFirstName(displayName, email) {
   return 'Member';
 }
 
-export function personalizeWhatsAppMessage(baseMessage, userName) {
+export function personalizeWhatsAppMessage(baseMessage: string, userName: string | null | undefined): string {
   const message = String(baseMessage || '').trim();
   const cleanName = String(userName || '').trim();
   if (!cleanName) {
@@ -132,14 +164,14 @@ export function personalizeWhatsAppMessage(baseMessage, userName) {
   return `${message} (Atas nama: ${cleanName})`;
 }
 
-export function buildWhatsAppUrl(phone, message) {
+export function buildWhatsAppUrl(phone: string, message: string): string {
   const digits = String(phone || '').replace(/\D+/g, '');
   const cleanDigits = digits || '6281200000000';
   const encodedText = encodeURIComponent(String(message || ''));
   return `${WA_HOST}${cleanDigits}?text=${encodedText}`;
 }
 
-export function getNextLightboxIndex(currentIndex, total, direction) {
+export function getNextLightboxIndex(currentIndex: number, total: number, direction: 'prev' | 'next'): number {
   if (total <= 0) return -1;
   const step = direction === 'prev' ? -1 : 1;
   return (currentIndex + step + total) % total;
